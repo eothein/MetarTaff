@@ -8,7 +8,7 @@ import io.objectbox.annotation.Id;
  */
 
 @Entity
-public class Aiport {
+public class Airport {
 
 
     @Id

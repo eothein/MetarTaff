@@ -25,7 +25,7 @@ public class Metar {
      * Aiportcode folloing the ICA standard
      */
     @Index
-    private ToOne<Aiport> airportCode;
+    private ToOne<Airport> airportCode;
 
     /**
      * Day of the month
@@ -74,11 +74,11 @@ public class Metar {
         this.rawMetar = rawMetar;
     }
 
-    public ToOne<Aiport> getAirportCode() {
+    public ToOne<Airport> getAirportCode() {
         return airportCode;
     }
 
-    public void setAirportCode(ToOne<Aiport> airportCode) {
+    public void setAirportCode(ToOne<Airport> airportCode) {
         this.airportCode = airportCode;
     }
 

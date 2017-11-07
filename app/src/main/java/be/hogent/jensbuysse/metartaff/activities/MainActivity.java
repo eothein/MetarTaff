@@ -9,8 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import be.hogent.jensbuysse.metartaff.MetarApplication;
 import be.hogent.jensbuysse.metartaff.R;
-import be.hogent.jensbuysse.metartaff.activities.adapters.AiportAdapter;
+import be.hogent.jensbuysse.metartaff.activities.adapters.AirportAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new AiportAdapter(getApplicationContext());
+        mAdapter = new AirportAdapter(getApplicationContext(),(MetarApplication)getApplication());
         mRecyclerView.setAdapter(mAdapter);
 
 

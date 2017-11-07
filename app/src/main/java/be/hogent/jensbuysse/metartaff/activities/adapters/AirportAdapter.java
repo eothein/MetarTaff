@@ -15,20 +15,34 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.hogent.jensbuysse.metartaff.MetarApplication;
 import be.hogent.jensbuysse.metartaff.R;
-import be.hogent.jensbuysse.metartaff.models.Aiport;
+import be.hogent.jensbuysse.metartaff.models.Airport;
+
+import io.objectbox.Box;
+import io.objectbox.query.Query;
+import io.objectbox.reactive.DataObserver;
 
 /**
  * Created by eothein on 07.11.17.
  */
 
-public class AiportAdapter extends RecyclerView.Adapter<AiportAdapter.ViewHolder> {
+public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHolder> implements DataObserver<List<Airport>>{
 
 
-    List<Aiport> airports ;
+    List<Airport> airports ;
     private Context context;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onData(List<Airport> data) {
+        airports = data;
+        notifyDataSetChanged();
+    }
+
+
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder  {
 
         public TextView name;
         public TextView description;
@@ -45,25 +59,18 @@ public class AiportAdapter extends RecyclerView.Adapter<AiportAdapter.ViewHolder
     }
 
 
-    public AiportAdapter(Context context) {
+    public AirportAdapter(Context context, MetarApplication app) {
         this.context = context;
-        airports = new ArrayList<>();
-        //Stub code
-        String[] airportsNames = {"EBOS", "EBBR", "EBAK"};
-        String [] airportsbeschrijvingen = {"Oostende", "Brussel (Brussels Airport)", "Antwerp/Kiel Heliport"};
-
-        for(int i = 0; i< airportsNames.length; i++){
-            Aiport airport = new Aiport();
-            airport.setPlaatsindicator(airportsNames[i]);
-            airport.setBeschrijving(airportsbeschrijvingen[i]);
-            airports.add(airport);
-        }
+        Box<Airport> airportBox = app.getBoxStore().boxFor(Airport.class);
+        Query<Airport> airportQuery = airportBox.query().build();
+        airportQuery.subscribe().observer(this);
+        airportQuery.find();
 
     }
 
 
     @Override
-    public AiportAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public AirportAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_layout,parent, false);
@@ -74,7 +81,7 @@ public class AiportAdapter extends RecyclerView.Adapter<AiportAdapter.ViewHolder
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Aiport airport = airports.get(position);
+        Airport airport = airports.get(position);
         holder.name.setText(airport.getPlaatsindicator());
         holder.description.setText(airport.getBeschrijving());
         Picasso.with(context).load(R.mipmap.airport).into(holder.thumbNail);
@@ -86,4 +93,6 @@ public class AiportAdapter extends RecyclerView.Adapter<AiportAdapter.ViewHolder
     public int getItemCount() {
         return airports.size();
     }
+
+
 }
