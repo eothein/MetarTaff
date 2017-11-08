@@ -6,4 +6,5 @@
     <color name="viewBg">#f1f5f8</color>
     <color name="album_title">#4c4c4c</color>
     <color name="white">#E3F2FD</color>
+    <color name="white_70">#BBDEFB</color>
 </resources>
