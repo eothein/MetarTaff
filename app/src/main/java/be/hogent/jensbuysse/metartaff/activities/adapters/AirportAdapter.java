@@ -49,6 +49,8 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
      */
     private CustomItemClickListener listener;
 
+    private MetarApplication app;
+
     /**
      * A ViewHolder describes an item view and metadata about its place within the RecyclerView.
      */
@@ -57,6 +59,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
         public TextView name;
         public TextView description;
         public ImageView thumbNail;
+
 
 
 
@@ -85,11 +88,16 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
     public AirportAdapter(Context context, MetarApplication app, CustomItemClickListener listener) {
         this.context = context;
         this.listener = listener;
+        this.app = app;
+        setAirports();
+
+    }
+
+    public void setAirports(){
         Box<Airport> airportBox = app.getBoxStore().boxFor(Airport.class);
         Query<Airport> airportQuery = airportBox.query().build();
         airportQuery.subscribe().observer(this);
         airportQuery.find();
-
     }
 
     /**
@@ -100,7 +108,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
     public void onData(List<Airport> data) {
         airports = data;
         Logger.i("onData called, registering the airport data");
-        notifyDataSetChanged();
+        notifyItemInserted(data.size() - 1);
     }
 
 

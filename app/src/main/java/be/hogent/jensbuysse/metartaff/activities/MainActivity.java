@@ -1,13 +1,18 @@
 package be.hogent.jensbuysse.metartaff.activities;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
@@ -15,11 +20,14 @@ import com.orhanobut.logger.Logger;
 import be.hogent.jensbuysse.metartaff.MetarApplication;
 import be.hogent.jensbuysse.metartaff.R;
 import be.hogent.jensbuysse.metartaff.activities.adapters.AirportAdapter;
+import be.hogent.jensbuysse.metartaff.fragments.AirportDialog;
+import be.hogent.jensbuysse.metartaff.models.Airport;
+import io.objectbox.Box;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements AirportDialog.AiportDialogListener{
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private AirportAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
@@ -58,10 +66,25 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AirportDialog dialog = new AirportDialog();
+                dialog.show(getFragmentManager(), "TAG");
+
             }
         });
     }
 
+    @Override
+    public void onDialogPositiveClick(String ICAO, String description) {
+        //Creating the box for the persistency
+
+        MetarApplication app = (MetarApplication)getApplication();
+        Box<Airport> airportBox = app.getBoxStore().boxFor(Airport.class);
+        Airport airport = new Airport();
+        airport.setPlaatsindicator(ICAO);
+        airport.setBeschrijving(description);
+
+        airportBox.put(airport);
+        mAdapter.setAirports();
+        Logger.i( "Inserted new aiport: ID: " + airport.getPlaatsindicator());
+    }
 }

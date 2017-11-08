@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MetarTaff</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="icaodescription">De ICAO-codes zijn twee- tot vierletterige codes die verwijzen naar navigatiebakens, vliegvelden en weerstations, luchtvaartmaatschappijen of luchtruimen.</string>
+    <string name="airportdescription">Name of the aiport</string>
+    <string name="add">add</string>
+    <string name="cancel">cancel</string>
 </resources>
