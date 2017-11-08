@@ -2,6 +2,7 @@ package be.hogent.jensbuysse.metartaff.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,7 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.orhanobut.logger.Logger;
 
 import be.hogent.jensbuysse.metartaff.MetarApplication;
@@ -22,7 +26,15 @@ import be.hogent.jensbuysse.metartaff.R;
 import be.hogent.jensbuysse.metartaff.activities.adapters.AirportAdapter;
 import be.hogent.jensbuysse.metartaff.fragments.AirportDialog;
 import be.hogent.jensbuysse.metartaff.models.Airport;
+import be.hogent.jensbuysse.metartaff.models.Metar;
+import be.hogent.jensbuysse.metartaff.network.MetarDeserializer;
+import be.hogent.jensbuysse.metartaff.network.MetarInterface;
 import io.objectbox.Box;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity  implements AirportDialog.AiportDialogListener{
 
@@ -56,6 +68,46 @@ public class MainActivity extends AppCompatActivity  implements AirportDialog.Ai
                     @Override
                     public void onItemClick(View v, int position) {
                         Logger.i("clicked position:" + position);
+
+
+                        GsonBuilder gsonBuilder = new GsonBuilder();
+                        gsonBuilder.registerTypeAdapter(Metar.class, new MetarDeserializer());
+                        Gson gson = gsonBuilder.create();
+
+                        Retrofit  retrofit = new Retrofit.Builder().baseUrl("https://avwx.rest/api/").
+                        addConverterFactory(GsonConverterFactory.create(gson)).build();
+
+                        MetarInterface metarService = retrofit.create(MetarInterface.class);
+                        Call<Metar> call = metarService.retrieveMetar("EBOS");
+
+
+                        // Set up progress before call
+                        final ProgressDialog progressDoalog;
+                        progressDoalog = new ProgressDialog(MainActivity.this);
+                        progressDoalog.setMessage("Loading most recent METAR information");
+                        progressDoalog.setTitle("Loading");
+                        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        // show it
+                        progressDoalog.show();
+
+
+
+                        call.enqueue(new Callback<Metar>() {
+                            @Override
+                            public void onResponse(Call<Metar> call, Response<Metar> response) {
+                                Logger.i("GOT a succesfull response");
+                                Logger.i(response.body().getRawMetar());
+                                progressDoalog.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Metar> call, Throwable t) {
+                                Logger.i("The onfailure is called");
+                                progressDoalog.dismiss();
+                            }
+                        });
+
+
 
                     }
                 });
