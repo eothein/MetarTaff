@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+
+import com.orhanobut.logger.Logger;
 
 import be.hogent.jensbuysse.metartaff.MetarApplication;
 import be.hogent.jensbuysse.metartaff.R;
@@ -39,7 +42,15 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new AirportAdapter(getApplicationContext(),(MetarApplication)getApplication());
+        mAdapter = new AirportAdapter(getApplicationContext(), (MetarApplication) getApplication(),
+
+                new AirportAdapter.CustomItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        Logger.i("clicked position:" + position);
+
+                    }
+                });
         mRecyclerView.setAdapter(mAdapter);
 
 

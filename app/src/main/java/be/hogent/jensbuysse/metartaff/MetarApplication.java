@@ -31,6 +31,7 @@ public class MetarApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Logger.i("Started application");
         Logger.addLogAdapter(new AndroidLogAdapter());
 
         boxStore = MyObjectBox.builder().androidContext(MetarApplication.this).build();
