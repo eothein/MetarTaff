@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -98,6 +99,10 @@ public class MainActivity extends AppCompatActivity  implements AirportDialog.Ai
                                 Logger.i("GOT a succesfull response");
                                 Logger.i(response.body().getRawMetar());
                                 progressDoalog.dismiss();
+
+
+                                Intent detailIntent = new Intent(getApplicationContext(),MetarDetailActivity.class);
+                                startActivity(detailIntent);
                             }
 
                             @Override
