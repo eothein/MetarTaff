@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity  implements AirportDialog.Ai
                                 Logger.i(response.body().getRawMetar());
                                 progressDoalog.dismiss();
 
-
+                                //TODO: save metar information, and send ID using the intent
                                 Intent detailIntent = new Intent(getApplicationContext(),MetarDetailActivity.class);
                                 startActivity(detailIntent);
                             }

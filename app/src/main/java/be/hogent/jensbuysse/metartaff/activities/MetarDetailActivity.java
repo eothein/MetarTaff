@@ -54,7 +54,7 @@ public class MetarDetailActivity extends AppCompatActivity implements RawFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_metar_detail);
 
-        
+
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
