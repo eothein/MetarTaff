@@ -39,6 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity  implements AirportDialog.AiportDialogListener{
 
+    public static final String METARID = "METARID" ;
     private RecyclerView mRecyclerView;
     private AirportAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -105,12 +106,14 @@ public class MainActivity extends AppCompatActivity  implements AirportDialog.Ai
                                 long metarId = saveMetar(response.body(), airport);
                                 //TODO: save metar information, and send ID using the intent
                                 Intent detailIntent = new Intent(getApplicationContext(),MetarDetailActivity.class);
+                                detailIntent.putExtra(METARID,metarId);
                                 startActivity(detailIntent);
                             }
 
                             @Override
                             public void onFailure(Call<Metar> call, Throwable t) {
-                                Logger.i("The onfailure is called");
+                                Logger.i("The onfailure is called ");
+                                t.printStackTrace();
                                 progressDoalog.dismiss();
                             }
                         });

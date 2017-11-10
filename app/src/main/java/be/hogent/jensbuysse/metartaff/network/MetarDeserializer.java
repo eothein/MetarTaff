@@ -23,8 +23,13 @@ public class MetarDeserializer implements JsonDeserializer<Metar>{
         final JsonElement jsonRaw = jsonObject.get("Raw-Report");
         final String raw = jsonRaw.getAsString();
 
+
+        final JsonElement jsonVisibility = jsonObject.get("Visibility");
+        final String visibility = jsonVisibility.getAsString();
+
         final Metar metar = new Metar();
         metar.setRawMetar(raw);
+        metar.setSight(Integer.parseInt(visibility));
 
         return metar;
 

@@ -3,12 +3,17 @@ package be.hogent.jensbuysse.metartaff.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.orhanobut.logger.Logger;
 
 import be.hogent.jensbuysse.metartaff.R;
+import be.hogent.jensbuysse.metartaff.models.Metar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +28,8 @@ public class RawFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private Metar metar;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -55,10 +62,25 @@ public class RawFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        updateUI();
+    }
+
+    private void updateUI(){
+        if(metar != null){
+            TextView v = this.getActivity().findViewById(R.id.rawmetar);
+            v.setText(metar.getRawMetar());
         }
+    }
+
+    public void setMetar(Metar metar) {
+        this.metar = metar;
+        updateUI();
     }
 
     @Override
