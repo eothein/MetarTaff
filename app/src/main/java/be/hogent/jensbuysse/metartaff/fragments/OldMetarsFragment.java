@@ -13,12 +13,12 @@ import be.hogent.jensbuysse.metartaff.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnDetailFragmentInteractionListener} interface
+ * {@link OnOldMetarInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DetailFragment#newInstance} factory method to
+ * Use the {@link OldMetarsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends Fragment {
+public class OldMetarsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,9 +28,9 @@ public class DetailFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnDetailFragmentInteractionListener mListener;
+    private OnOldMetarInteractionListener mListener;
 
-    public DetailFragment() {
+    public OldMetarsFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class DetailFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DetailFragment.
+     * @return A new instance of fragment OldMetarsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetailFragment newInstance(String param1, String param2) {
-        DetailFragment fragment = new DetailFragment();
+    public static OldMetarsFragment newInstance(String param1, String param2) {
+        OldMetarsFragment fragment = new OldMetarsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,21 +65,21 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        return inflater.inflate(R.layout.fragment_old_metars, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onDetailFragmentInteraction(uri);
+            mListener.onOldMetarFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnDetailFragmentInteractionListener) {
-            mListener = (OnDetailFragmentInteractionListener) context;
+        if (context instanceof OnOldMetarInteractionListener) {
+            mListener = (OnOldMetarInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnOldMetarInteractionListener");
@@ -102,8 +102,8 @@ public class DetailFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnDetailFragmentInteractionListener {
+    public interface OnOldMetarInteractionListener {
         // TODO: Update argument type and name
-        void onDetailFragmentInteraction(Uri uri);
+        void onOldMetarFragmentInteraction(Uri uri);
     }
 }

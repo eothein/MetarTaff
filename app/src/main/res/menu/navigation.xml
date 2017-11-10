@@ -10,6 +10,10 @@
         android:id="@+id/details"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/explanation" />
+    <item
+        android:id="@+id/oldmetars"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/oldmetars" />
 
 
 </menu>

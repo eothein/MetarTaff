@@ -13,7 +13,7 @@ import be.hogent.jensbuysse.metartaff.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RawFragment.OnFragmentInteractionListener} interface
+ * {@link OnRawFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link RawFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -28,7 +28,7 @@ public class RawFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnRawFragmentInteractionListener mListener;
 
     public RawFragment() {
         // Required empty public constructor
@@ -71,18 +71,18 @@ public class RawFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onRawFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnRawFragmentInteractionListener) {
+            mListener = (OnRawFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnOldMetarInteractionListener");
         }
     }
 
@@ -102,8 +102,8 @@ public class RawFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnRawFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onRawFragmentInteraction(Uri uri);
     }
 }

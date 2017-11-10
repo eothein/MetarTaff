@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:itemBackground="?attr/colorPrimary"
+        android:background="?attr/colorPrimary"
         app:itemIconTint="@drawable/selector_bottombar_item"
         app:itemTextColor="@drawable/selector_bottombar_item"
         app:menu="@menu/navigation" />

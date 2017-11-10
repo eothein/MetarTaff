@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity  implements AirportDialog.Ai
                     public void onItemClick(View v, int position) {
                         Logger.i("clicked position:" + position);
 
+                        final Airport airport = mAdapter.getAiport(position);
+
+                        Logger.i("Retrieving information for airport : "+ airport.getPlaatsindicator());
 
                         GsonBuilder gsonBuilder = new GsonBuilder();
                         gsonBuilder.registerTypeAdapter(Metar.class, new MetarDeserializer());
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity  implements AirportDialog.Ai
                         addConverterFactory(GsonConverterFactory.create(gson)).build();
 
                         MetarInterface metarService = retrofit.create(MetarInterface.class);
-                        Call<Metar> call = metarService.retrieveMetar("EBOS");
+                        Call<Metar> call = metarService.retrieveMetar(airport.getPlaatsindicator());
 
 
                         // Set up progress before call
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity  implements AirportDialog.Ai
                                 Logger.i("GOT a succesfull response");
                                 Logger.i(response.body().getRawMetar());
                                 progressDoalog.dismiss();
-
+                                long metarId = saveMetar(response.body(), airport);
                                 //TODO: save metar information, and send ID using the intent
                                 Intent detailIntent = new Intent(getApplicationContext(),MetarDetailActivity.class);
                                 startActivity(detailIntent);
@@ -130,6 +133,17 @@ public class MainActivity extends AppCompatActivity  implements AirportDialog.Ai
         });
     }
 
+    private long saveMetar(Metar metar, Airport airport){
+        MetarApplication app = (MetarApplication)getApplication();
+        Box<Metar> metarBox = app.getBoxStore().boxFor(Metar.class);
+        metar.airport.setTarget(airport);
+        Logger.i("Added a new metar + "+metar.getRawMetar());
+        return metarBox.put(metar);
+
+    }
+
+
+
     @Override
     public void onDialogPositiveClick(String ICAO, String description) {
         //Creating the box for the persistency
@@ -142,6 +156,7 @@ public class MainActivity extends AppCompatActivity  implements AirportDialog.Ai
 
         airportBox.put(airport);
         mAdapter.setAirports();
+        
         Logger.i( "Inserted new aiport: ID: " + airport.getPlaatsindicator());
     }
 }

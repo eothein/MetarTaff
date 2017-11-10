@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "2:548803780818361204",
-      "lastPropertyId": "9:742057103196876416",
+      "lastPropertyId": "10:3490017199506098867",
       "name": "Metar",
       "properties": [
         {
@@ -41,9 +41,9 @@
           "name": "sight"
         },
         {
-          "id": "9:742057103196876416",
-          "indexId": "1:2877565086617842264",
-          "name": "airportCodeId"
+          "id": "10:3490017199506098867",
+          "indexId": "2:16595093778492819",
+          "name": "airportId"
         }
       ],
       "relations": []
@@ -70,7 +70,7 @@
     }
   ],
   "lastEntityId": "3:2893436444462964469",
-  "lastIndexId": "1:2877565086617842264",
+  "lastIndexId": "2:16595093778492819",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
@@ -78,11 +78,14 @@
   "retiredEntityUids": [
     4901986656243523243
   ],
-  "retiredIndexUids": [],
+  "retiredIndexUids": [
+    2877565086617842264
+  ],
   "retiredPropertyUids": [
     3718504020114747580,
     4944674200355067728,
-    2557251493389270666
+    2557251493389270666,
+    742057103196876416
   ],
   "retiredRelationUids": [],
   "version": 1

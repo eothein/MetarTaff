@@ -21,8 +21,10 @@ import be.hogent.jensbuysse.metartaff.R;
 import be.hogent.jensbuysse.metartaff.models.Airport;
 
 import io.objectbox.Box;
+import io.objectbox.android.AndroidScheduler;
 import io.objectbox.query.Query;
 import io.objectbox.reactive.DataObserver;
+import io.objectbox.reactive.DataSubscriptionList;
 
 /**
  * Created by eothein on 07.11.17.
@@ -50,6 +52,8 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
     private CustomItemClickListener listener;
 
     private MetarApplication app;
+
+    private DataSubscriptionList subscriptions = new DataSubscriptionList();
 
     /**
      * A ViewHolder describes an item view and metadata about its place within the RecyclerView.
@@ -96,8 +100,8 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
     public void setAirports(){
         Box<Airport> airportBox = app.getBoxStore().boxFor(Airport.class);
         Query<Airport> airportQuery = airportBox.query().build();
-        airportQuery.subscribe().observer(this);
-        airportQuery.find();
+        airportQuery.subscribe().on(AndroidScheduler.mainThread()).observer(this);
+
     }
 
     /**
@@ -108,7 +112,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
     public void onData(List<Airport> data) {
         airports = data;
         Logger.i("onData called, registering the airport data");
-        notifyItemInserted(data.size() - 1);
+        notifyDataSetChanged();
     }
 
 
@@ -147,5 +151,9 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
         return airports.size();
     }
 
+
+    public Airport getAiport(int position){
+        return airports.get(position);
+    }
 
 }
