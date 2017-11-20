@@ -42,6 +42,7 @@ public class MetarDetailActivity extends AppCompatActivity implements OldMetarsF
     private Airport airport;
 
     private Metar metar;
+    private long metarID;
 
     private List<Fragment> fragments = new ArrayList<>(2);
 
@@ -78,9 +79,16 @@ public class MetarDetailActivity extends AppCompatActivity implements OldMetarsF
         buildFragmentList();
 
         Intent metarIntent = getIntent();
-        long metarID = metarIntent.getLongExtra(MainActivity.METARID, 0);
+        metarID = metarIntent.getLongExtra(MainActivity.METARID, 0);
+
+        switchFragment(0, TAG_RAW);
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         MetarApplication app = (MetarApplication)getApplication();
         Box<Metar> metarBox = app.getBoxStore().boxFor(Metar.class);
         Query<Metar> metarQuery = metarBox.query().equal(Metar_.__ID_PROPERTY,metarID).build();
@@ -88,7 +96,7 @@ public class MetarDetailActivity extends AppCompatActivity implements OldMetarsF
         metarQuery.subscribe().on(AndroidScheduler.mainThread()).onError(new ErrorObserver() {
             @Override
             public void onError(Throwable th) {
-                Logger.e("Error throw: " + th.getMessage());
+                Logger.e("Error METAR throw: " + th.getMessage());
             }
         }).observer(new DataObserver<List<Metar>>() {
             @Override
@@ -99,12 +107,7 @@ public class MetarDetailActivity extends AppCompatActivity implements OldMetarsF
             }
         });
 
-
-        switchFragment(0, TAG_RAW);
-
-
     }
-
 
     private void updateFragments(){
         ((RawFragment)fragments.get(0)).setMetar(metar);
